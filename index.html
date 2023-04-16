@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ナンバーズ</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body id=body>
+    <h1 id="maxCount">4</h1>
+    <table border="1">
+        <tr>
+            <td id="1-1" onclick="next(this)">2</td>
+            <td id="1-2" onclick="next(this)">2</td>
+            <td id="1-3" onclick="next(this)">2</td>
+            <td id="1-4" onclick="next(this)">2</td>
+            <td id="1-5" onclick="next(this)">2</td>
+        </tr>
+        <tr>
+            <td id="2-1" onclick="next(this)">3</td>
+            <td id="2-2" onclick="next(this)">3</td>
+            <td id="2-3" onclick="next(this)">3</td>
+            <td id="2-4" onclick="next(this)">3</td>
+            <td id="2-5" onclick="next(this)">2</td>
+        </tr>
+        <tr>
+            <td id="3-1" onclick="next(this)">2</td>
+            <td id="3-2" onclick="next(this)">2</td>
+            <td id="3-3" onclick="next(this)">5</td>
+            <td id="3-4" onclick="next(this)">2</td>
+            <td id="3-5" onclick="next(this)">2</td>
+        </tr>
+        <tr>
+            <td id="4-1" onclick="next(this)">2</td>
+            <td id="4-2" onclick="next(this)">2</td>
+            <td id="4-3" onclick="next(this)">5</td>
+            <td id="4-4" onclick="next(this)">2</td>
+            <td id="4-5" onclick="next(this)">2</td>
+        </tr>
+        <tr>
+            <td id="5-1" onclick="next(this)">2</td>
+            <td id="5-2" onclick="next(this)">2</td>
+            <td id="5-3" onclick="next(this)">2</td>
+            <td id="5-4" onclick="next(this)">2</td>
+            <td id="5-5" onclick="next(this)">2</td>
+        </tr>
+    </table>
+    <audio id="click">
+        <source src="https://res.cloudinary.com/code-kitchen/video/upload/v1555038697/posts/zk5sldkxuebny7mwlhh3.mp3"
+            type="audio/mp3">
+    </audio>
+    <script>
+        start();
+        sys();
+        document.getElementById("maxCount").innerHTML = MAX();
+        end();
+
+        function end() {
+            let setCount = document.getElementsByClassName("set");
+            if (setCount.length == 0){
+                alert("ゲーム終了")
+            }
+        }
+
+        function sys() {
+            let all = document.getElementsByClassName("set");
+            const cnt = all.length;
+            for (let i = 1; i <= cnt; i++) {
+                let all = document.getElementsByClassName("set");
+                all[0].classList.remove("set");
+            }
+            for (let i = 1; i <= 5; i++) {
+                for (let j = 1; j <= 5; j++) {
+                    let slc = document.getElementById(i + "-" + j);
+                    if (j <= 4) {
+                        var x = j + 1;
+                        let right = document.getElementById(i + "-" + x);
+                        if (slc.textContent == right.textContent) {
+                            slc.classList.add("set");
+                            right.classList.add("set");
+                        }
+                    }
+                    if (j >= 2) {
+                        var x = j - 1;
+                        let left = document.getElementById(i + "-" + x);
+                        if (slc.textContent == left.textContent) {
+                            slc.classList.add("set");
+                            left.classList.add("set");
+                        }
+                    }
+                    if (i <= 4) {
+                        var y = i + 1;
+                        let under = document.getElementById(y + "-" + j);
+                        if (slc.textContent == under.textContent) {
+                            slc.classList.add("set");
+                            under.classList.add("set");
+                        }
+                    }
+                    if (i >= 2) {
+                        var y = i - 1;
+                        let up = document.getElementById(y + "-" + j);
+                        if (slc.textContent == up.textContent) {
+                            slc.classList.add("set");
+                            up.classList.add("set");
+                        }
+                    }
+                    color(slc);
+                }
+            }
+        }
+        function color(slc) {
+            for (let color = 1; color <= 11; color++) {
+                if (slc.innerHTML == color) {
+                    delcol(slc);
+                    slc.classList.add("col" + color);
+                }
+            }
+        }
+        function delcol(slc) {
+            slc.classList.remove("col1")
+            slc.classList.remove("col2")
+            slc.classList.remove("col3")
+            slc.classList.remove("col4")
+            slc.classList.remove("col5")
+            slc.classList.remove("col6")
+            slc.classList.remove("col7")
+            slc.classList.remove("col8")
+            slc.classList.remove("col9")
+        }
+        function next(ID) {
+            if (ID.classList.contains("set")) {
+                clicksound();
+                let slc = document.getElementById(ID.id.slice(0, 1) + "-" + ID.id.slice(-1));
+                if (ID.id.slice(-1) <= 4) {
+                    var x = eval(ID.id.slice(-1) + "+1");
+                    let right = document.getElementById(ID.id.slice(0, 1) + "-" + x);
+                    if (slc.textContent == right.textContent) {
+                        right.classList.add("clear0");
+                        right.classList.add("delete");
+                    }
+                }
+                if (ID.id.slice(-1) >= 2) {
+                    var x = eval(ID.id.slice(-1) + "-1");
+                    let left = document.getElementById(ID.id.slice(0, 1) + "-" + x);
+                    if (slc.textContent == left.textContent) {
+                        left.classList.add("clear0");
+                        left.classList.add("delete");
+                    }
+                }
+                if (ID.id.slice(0, 1) <= 4) {
+                    var y = eval(ID.id.slice(0, 1) + "+1");
+                    let under = document.getElementById(y + "-" + ID.id.slice(-1));
+                    if (slc.textContent == under.textContent) {
+                        under.classList.add("clear0");
+                        under.classList.add("delete");
+                    }
+                }
+                if (ID.id.slice(0, 1) >= 2) {
+                    var y = eval(ID.id.slice(0, 1) + "-1");
+                    let up = document.getElementById(y + "-" + ID.id.slice(-1));
+                    if (slc.textContent == up.textContent) {
+                        up.classList.add("clear0");
+                        up.classList.add("delete");
+                    }
+                }
+                for (let i = 0; i <= 16; i++) {
+                    let clearX = document.getElementsByClassName("clear" + i);
+                    for (let j = 0; j <= clearX.length - 1; j++) {
+                        let slc = document.getElementById(clearX[j].id.slice(0, 1) + "-" + clearX[j].id.slice(-1));
+                        if (clearX[j].id.slice(-1) <= 4) {
+                            var x = eval(clearX[j].id.slice(-1) + "+1");
+                            let right = document.getElementById(clearX[j].id.slice(0, 1) + "-" + x);
+                            if (slc.textContent == right.textContent) {
+                                if (!right.classList.contains("clear" + (i - 1))) {
+                                    right.classList.add("clear" + (i + 1));
+                                    right.classList.add("delete");
+                                }
+                            }
+                        }
+                        if (clearX[j].id.slice(-1) >= 2) {
+                            var x = eval(clearX[j].id.slice(-1) + "-1");
+                            let left = document.getElementById(clearX[j].id.slice(0, 1) + "-" + x);
+                            if (slc.textContent == left.textContent) {
+                                if (!left.classList.contains("clear" + (i - 1))) {
+                                    left.classList.add("clear" + (i + 1));
+                                    left.classList.add("delete");
+                                }
+                            }
+                        }
+                        if (clearX[j].id.slice(0, 1) <= 4) {
+                            var y = eval(clearX[j].id.slice(0, 1) + "+1");
+                            let under = document.getElementById(y + "-" + clearX[j].id.slice(-1));
+                            if (slc.textContent == under.textContent) {
+                                if (!under.classList.contains("clear" + (i - 1))) {
+                                    under.classList.add("clear" + (i + 1));
+                                    under.classList.add("delete");
+                                }
+                            }
+                        }
+                        if (clearX[j].id.slice(0, 1) >= 2) {
+                            var y = eval(clearX[j].id.slice(0, 1) + "-1");
+                            let up = document.getElementById(y + "-" + clearX[j].id.slice(-1));
+                            if (slc.textContent == up.textContent) {
+                                if (!up.classList.contains("clear" + (i - 1))) {
+                                    up.classList.add("clear" + (i + 1));
+                                    up.classList.add("delete");
+                                }
+                            }
+                        }
+                    }
+                }
+                if (ID.textContent == MAX()) {
+                    let all = document.getElementsByTagName("td");
+                    for (let h in all) {
+                        if (all[h].textContent == MIN()) {
+                            all[h].classList.add("delete");
+                        }
+                    }
+                    bg2()
+                }
+                ID.innerHTML = eval(ID.textContent + "+1");
+                color(ID);
+                for (let i = 0; i <= 16; i++) {
+                    let clear = document.getElementsByClassName("clear" + i);
+                    var max = clear.length;
+                    for (let j = 1; j <= max; j++) {
+                        let clear = document.getElementsByClassName("clear" + i);
+                        //clear[0].innerHTML = Math.floor(1 + Math.random() * 5);
+                        //console.log(clear[j].id)
+                        //console.log(clear[j].classList)
+                        //clear[0].innerHTML = down();
+                        color(clear[0])
+                        clear[0].classList.remove("clear" + i);
+                    }
+                }
+                ID.classList.remove("delete");
+                ID.classList.add("host");
+                down(ID);
+                sys();
+                document.getElementById("maxCount").innerHTML = MAX();
+                window.setTimeout( end, 1500 );
+            }
+        }
+        function down(ID) {
+            for (let i = 5; i >= 1; i--) {
+                for (let j = 5; j >= 1; j--) {
+                    let slc = document.getElementById(i + "-" + j);
+                    if (i != 1) {
+                        if (slc.classList.contains("delete") || slc.classList.contains("copy")) {
+                            let g = i - 1;
+                            let up = document.getElementById(g + "-" + j);
+                            while (up.classList.contains("delete") || up.classList.contains("copy")) {
+                                g = g - 1;
+                                up = document.getElementById(g + "-" + j);
+                                if (g <= 0) {
+                                    break;
+                                }
+                            }
+                            if (g != 0) {
+                                up.classList.add("copy");
+                                slc.innerHTML = up.textContent;
+                            } else {
+                                //上にコピー先がない時
+                                create(slc);
+                            }
+                        }
+                    } else {
+                        //一番上の段の処理
+                        if (slc.classList.contains("delete") || slc.classList.contains("copy")) {
+                            create(slc);
+                        }
+                    }
+                    slc.classList.remove("delete");
+                    slc.classList.remove("copy");
+                    color(slc);
+                }
+            }
+        }
+        function create(slc) {
+            const data = {
+                4: 15,  // 15%
+                3: 20,  // 20%
+                2: 30, // 30%
+                // 1 40%
+            }
+            const rand = Math.floor(Math.random() * 100);
+            let result = 1;
+            let rate = 0;
+            for (const prop in data) {
+                rate += data[prop]
+                if (rand <= rate) {
+                    result = prop;
+                    break;
+                }
+            }
+            slc.innerHTML = result;
+        }
+        function MAX() {
+            var all = document.getElementsByTagName("td")
+            let max = 0;
+            for (let f in all) {
+                if (max <= all[f].textContent) {
+                    max = all[f].textContent;
+                }
+            }
+            return max;
+        }
+        function MIN() {
+            var all = document.getElementsByTagName("td")
+            let min = 100;
+            for (let f in all) {
+                if (min >= all[f].textContent) {
+                    min = all[f].textContent
+                }
+            }
+            return min;
+        }
+        function start() {
+            var all = document.getElementsByTagName("td");
+            for (let f in all) {
+                create(all[f])
+            }
+        }
+        function clicksound() {
+            document.getElementById('click').currentTime = 0;
+            document.getElementById('click').play();
+        }
+        function bg1() {
+            document.getElementById("body").style.backgroundColor = "black"
+        }
+        function bg2() {
+            document.getElementById("body").style.backgroundColor = "white"
+            window.setTimeout( bg1, 400 );
+        }
+    </script>
+</body>
+
+</html>
