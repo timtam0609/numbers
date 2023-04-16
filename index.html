@@ -299,8 +299,8 @@
             var all = document.getElementsByTagName("td")
             let max = 0;
             for (let f in all) {
-                if (max <= all[f].textContent) {
-                    max = all[f].textContent;
+                if (max <= Number(all[f].textContent)) {
+                    max = Number(all[f].textContent);
                 }
             }
             return max;
